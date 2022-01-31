@@ -15,7 +15,11 @@
     "Overwatch.exe",
     "r5Apex.exe",
     "GenshinImpact.exe",
-    "javaw.exe"
+    "javaw.exe",
+    "FortniteClient-Win64-Shipping.exe",
+    "FortniteClient-Win64-Shipping_BE.exe",
+    "FSD.exe",
+    "Back4Blood.exe"
   ],
   "default": true,
   "interval": 500
