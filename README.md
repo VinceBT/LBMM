@@ -12,7 +12,7 @@ You can edit the `settings.json` to add a program of your choice, or to adjust s
 Just remember to kill the `Node.js Javascript Runtime` process and run again the `LBMM.vbs` script.
 
 ### Basic
-- Go to releases, download the zip and extract it to your favorite location
+- Go to [releases](https://github.com/VinceBT/LBMM/releases), download the zip and extract it to your favorite location
 - Double-click the `LBMM.vbs` script, now you should have a running `Node.js Javascript Runtime` process inside Task Manager
 - When focusing a window that is specified in the settings, the LBM icon should turn grey and turn back green when focusing a regular one, like this
   ![eZmF3Np9Co](https://user-images.githubusercontent.com/1362505/151820434-05772094-632d-4884-8828-8f4b275ebee4.gif)
@@ -20,6 +20,7 @@ Just remember to kill the `Node.js Javascript Runtime` process and run again the
 ### Automatic
 If you want to make it run automatically on every startup (this method is from [this article](https://keestalkstech.com/2016/07/start-nodejs-app-windowless-windows/#vbs-to-the-rescue))
 
+- Follow the Basic steps first
 - Open Explorer and paste `%AppData%\Microsoft\Windows\Start Menu\Programs\Startup\` into the address bar, like this
 ![image](https://user-images.githubusercontent.com/1362505/151819930-d2028edb-c6f0-422a-b3a1-2631f6d2fccb.png)
 - Create a new shortcut and point it to the `LBMM.vbs` file inside the project
@@ -39,7 +40,7 @@ https://github.com/mgth/LittleBigMouse
 
 ## Development
 
-Feel free to create a PR
+Feel free to create a PR, I know this program is not optimal and could be improved:
 
 - Use NVM or Node 14
 - Install dependencies with `npm install`
