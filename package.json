@@ -1,0 +1,39 @@
+{
+  "name": "lbmm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development ts-node src/index.ts",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
+    "compile": "tsc",
+    "executable": "npm run compile && nexe dist/index.js --build --verbose",
+    "pack": "cd portable && bestzip ../LBMM.zip *",
+    "preportable": "rimraf portable",
+    "portable": "npm run executable -- -o portable/LBMM.exe",
+    "postportable": "copyfiles LBMM.vbs settings.json node_modules/**/addon.node node_modules/exiftool-vendored.exe/bin/exiftool.exe portable && npm run pack",
+    "build": "npm run executable -- -o LBMM.exe",
+    "clean": "rimraf node_modules LBMM.exe portable dist LBMM.zip",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "VinceBT",
+  "license": "MIT",
+  "dependencies": {
+    "exiftool-vendored": "^14.0.0",
+    "node-window-manager": "^2.2.4"
+  },
+  "devDependencies": {
+    "@types/luxon": "^2.0.9",
+    "@types/node": "^14.14.31",
+    "bestzip": "^2.2.0",
+    "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
+    "nexe": "^4.0.0-beta.19",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  }
+}

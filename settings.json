@@ -1,0 +1,22 @@
+{
+  "daemon": "C:\\\"Program Files\"\\LittleBigMouse\\LittleBigMouse_Daemon.exe",
+  "arguments": {
+    "on": ["--start"],
+    "off": ["--stop"]
+  },
+  "programs": [
+    "League of Legends.exe",
+    "Gw2.exe",
+    "Gw2-64.exe",
+    "Valorant.exe",
+    "Rocket League.exe",
+    "destiny2.exe",
+    "ModernWarfare.exe",
+    "Overwatch.exe",
+    "r5Apex.exe",
+    "GenshinImpact.exe",
+    "javaw.exe"
+  ],
+  "default": true,
+  "interval": 500
+}
