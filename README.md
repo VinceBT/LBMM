@@ -12,7 +12,7 @@ You can edit the `settings.json` to add a program of your choice, or to adjust s
 Just remember to kill the `Node.js Javascript Runtime` process and run again the `LBMM.vbs` script.
 
 ### Basic
-- Go to [releases](https://github.com/VinceBT/LBMM/releases), download the zip and extract it to your favorite location
+- Go to [releases](https://github.com/VinceBT/LBMM/releases), download `LBMM.zip` and extract it to your favorite location
 - Double-click the `LBMM.vbs` script, now you should have a running `Node.js Javascript Runtime` process inside Task Manager
 - When focusing a window that is specified in the settings, the LBM icon should turn grey and turn back green when focusing a regular one, like this
   ![eZmF3Np9Co](https://user-images.githubusercontent.com/1362505/151820434-05772094-632d-4884-8828-8f4b275ebee4.gif)
