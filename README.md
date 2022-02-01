@@ -1,4 +1,4 @@
-# LittleBigMouse Manager
+# <img src="assets/image.png" alt="drawing" style="width:24px;"/> LittleBigMouse Manager
 
 Are you facing issues while using borderless fullscreen applications with LittleBigMouse ?
 
@@ -9,15 +9,17 @@ This is a third-party tool for [LittleBigMouse](https://github.com/mgth/LittleBi
 ## Installation
 
 ### Basic
+
 - Go to the [releases](https://github.com/VinceBT/LBMM/releases) page and download the latest release's `LBMM.zip` and extract it to your favorite location
 - Double-click the `LBMM_run.vbs` script, now you should have a running `LBMM.exe` process inside Task Manager "Details" tab
 - When focusing a window that is specified in the settings, the LBM icon should turn grey and turn back green when focusing a regular one, like this
   ![eZmF3Np9Co](https://user-images.githubusercontent.com/1362505/151820434-05772094-632d-4884-8828-8f4b275ebee4.gif)
 
 You can edit the `configuration.json` to add a program of your choice (you just need to specify the game executable), or to adjust some other settings.
-Just remember to kill the `LBMM.exe` process inside Task Manager "Details" tab and run again the `LBMM_run.vbs` script.
+Just remember to run `LBMM_stop.vbs` (or kill the `LBMM.exe` process inside Task Manager "Details" tab), edit the configuration, and then run again the `LBMM_run.vbs` script.
 
 ### Automatic
+
 If you want to make it run automatically on every startup (this method is from [this article](https://keestalkstech.com/2016/07/start-nodejs-app-windowless-windows/#vbs-to-the-rescue)).
 
 - Make sure you followed the Basic steps first
@@ -28,7 +30,7 @@ If you want to make it run automatically on every startup (this method is from [
 
 ## Settings
 
-All these settings can be changed inside `configuration.json`, you will have to kill the Node process and restart it apply the changes.
+All these settings can be changed inside `configuration.json`, you will have to run `LBMM_stop.vbs`, edit the settings, and then run `LBMM_run.vbs`.
 
 - `daemon`: Where the LittleBigMouse_Daemon.exe file is located on your system
 - `arguments`: Arguments passed to the daemon to turn it on or off, you should not have to touch this
