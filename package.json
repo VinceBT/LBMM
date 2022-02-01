@@ -1,6 +1,6 @@
 {
   "name": "lbmm",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,11 +8,11 @@
     "start": "cross-env NODE_ENV=development ts-node src/index.ts",
     "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
     "compile": "tsc",
-    "executable": "npm run compile && nexe dist/index.js --build --verbose",
+    "executable": "npm run compile && nexe dist/index.js --name LBMM --icon assets/iconset.ico --build --verbose",
     "pack": "cd portable && bestzip ../LBMM.zip *",
     "preportable": "rimraf portable",
     "portable": "npm run executable -- -o portable/LBMM.exe",
-    "postportable": "copyfiles LBMM.vbs settings.json node_modules/**/addon.node node_modules/exiftool-vendored.exe/bin/exiftool.exe portable && npm run pack",
+    "postportable": "copyfiles LBMM_run.vbs configuration.json node_modules/**/addon.node node_modules/exiftool-vendored.exe/bin/exiftool.exe portable && npm run pack",
     "build": "npm run executable -- -o LBMM.exe",
     "clean": "rimraf node_modules LBMM.exe portable dist LBMM.zip",
     "test": "echo \"Error: no test specified\" && exit 1"

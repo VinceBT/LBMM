@@ -13,7 +13,7 @@ interface SettingsMap {
 }
 
 const settingsRaw = fs
-  .readFileSync(path.resolve(process.cwd(), "settings.json"))
+  .readFileSync(path.resolve(process.cwd(), "configuration.json"))
   .toString();
 const settingsJson = JSON.parse(settingsRaw) as SettingsMap;
 
