@@ -1,0 +1,12 @@
+{
+  "tray.exit.title": "Exit",
+  "tray.exit.tooltip": "Close program",
+  "tray.location.title": "Open program location",
+  "tray.location.tooltip": "Open where the program is located on the computer",
+  "tray.logs.title": "Open logs",
+  "tray.logs.tooltip": "Open the logs where all debug trace is stored",
+  "tray.settings.title": "Open settings",
+  "tray.settings.tooltip": "Open the settings of the app, any change will apply instantly",
+  "tray.startup.title": "Start with windows",
+  "tray.startup.tooltip": "Start the program with Windows"
+}

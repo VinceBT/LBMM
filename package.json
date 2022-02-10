@@ -6,31 +6,67 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=development ts-node src/index.ts",
-    "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.ts --ignore settings.json",
     "compile": "tsc",
     "executable": "npm run compile && nexe dist/index.js --name LBMM --icon assets/iconset.ico --build --verbose",
     "pack": "cd portable && bestzip ../LBMM.zip *",
     "preportable": "rimraf portable",
     "portable": "npm run executable -- -o portable/LBMM.exe",
-    "postportable": "copyfiles LBMM_run.vbs configuration.json node_modules/**/addon.node node_modules/exiftool-vendored.exe/bin/exiftool.exe portable && npm run pack",
+    "postportable": "copyfiles *.vbs settings.json locales/* assets/* node_modules/**/addon.node node_modules/**/*.exe portable && npm run pack",
     "build": "npm run executable -- -o LBMM.exe",
-    "clean": "rimraf node_modules LBMM.exe portable dist LBMM.zip",
+    "clean": "rimraf LBMM.exe portable dist LBMM.zip logs.txt",
+    "lint": "eslint --ext=.jsx,.js,.tsx,.ts src --quiet --fix",
+    "postinstall": "patch-package",
+    "typesync": "typesync --ignorepackages=luxon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "VinceBT",
   "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
   "dependencies": {
     "exiftool-vendored": "^14.0.0",
-    "node-window-manager": "^2.2.4"
+    "i18next": "^21.6.11",
+    "lodash.debounce": "^4.0.8",
+    "node-window-manager": "^2.2.4",
+    "reflect-metadata": "^0.1.13",
+    "systray2": "^2.1.4",
+    "typedi": "^0.10.0",
+    "typesync": "^0.8.0",
+    "windows-shortcuts": "^0.1.6"
   },
   "devDependencies": {
+    "@types/copyfiles": "^2.4.1",
+    "@types/eslint": "^8.4.1",
+    "@types/eslint-plugin-prettier": "^3.1.0",
+    "@types/lodash.debounce": "^4.0.6",
     "@types/luxon": "^2.0.9",
     "@types/node": "^14.14.31",
+    "@types/nodemon": "^1.19.1",
+    "@types/prettier": "^2.4.4",
+    "@types/rimraf": "^3.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
     "bestzip": "^2.2.0",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.3",
     "nexe": "^4.0.0-beta.19",
     "nodemon": "^2.0.15",
+    "patch-package": "^6.4.7",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
     "ts-node": "^10.4.0",

@@ -1,10 +1,9 @@
 {
   "daemon": "C:\\\"Program Files\"\\LittleBigMouse\\LittleBigMouse_Daemon.exe",
-  "arguments": {
-    "on": ["--start"],
-    "off": ["--stop"]
-  },
-  "programs": [
+  "initial": true,
+  "interval": 500,
+  "startup": true,
+  "blacklist": [
     "Back4Blood.exe",
     "destiny2.exe",
     "dota2.exe",
@@ -25,7 +24,5 @@
     "Valorant.exe",
     "war3.exe",
     "Warcraft III.exe"
-  ],
-  "default": true,
-  "interval": 500
+  ]
 }

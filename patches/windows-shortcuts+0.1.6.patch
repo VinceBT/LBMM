@@ -1,0 +1,37 @@
+diff --git a/node_modules/windows-shortcuts/lib/windows-shortcuts.d.ts b/node_modules/windows-shortcuts/lib/windows-shortcuts.d.ts
+index d805ad3..e18df3b 100644
+--- a/node_modules/windows-shortcuts/lib/windows-shortcuts.d.ts
++++ b/node_modules/windows-shortcuts/lib/windows-shortcuts.d.ts
+@@ -61,7 +61,7 @@ interface QueryCallback {
+  * @param callback 
+  * A function to be executed when ws.create is finished executing. 
+  */
+-export function create(path: string, target: string, callback?: CreateOrEditCallback);
++export function create(path: string, target: string, callback?: CreateOrEditCallback): void;
+ 
+ /**
+  * Creates a new shortcut.
+@@ -80,7 +80,7 @@ export function create(path: string, target: string, callback?: CreateOrEditCall
+  * @param callback 
+  * A function to be executed when ws.create is finished executing. 
+  */
+-export function create(path: string, options: ShortcutOptions, callback?: CreateOrEditCallback);
++export function create(path: string, options: ShortcutOptions, callback?: CreateOrEditCallback): void;
+ 
+ /**
+  * Edits an existing shortcut, applying new options.
+@@ -88,12 +88,12 @@ export function create(path: string, options: ShortcutOptions, callback?: Create
+  * @param options An object with optional parameters
+  * @param callback A function to be executed when ws.edit is finished executing
+  */
+-export function edit(path: string, options: ShortcutOptions, callback?: CreateOrEditCallback);
++export function edit(path: string, options: ShortcutOptions, callback?: CreateOrEditCallback): void;
+ 
+ /**
+  * Collects information about an existing shortcut.
+  * @param path The file path to an existing shortcut
+  * @param callback A function to be executed when ws.query is finished executing
+  */
+-export function query(path: string, callback: (error: string | null, options?: ShortcutOptions) => void);
++export function query(path: string, callback: (error: string | null, options?: ShortcutOptions) => void): void;
+ 
