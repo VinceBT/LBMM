@@ -17,6 +17,7 @@
     "clean": "rimraf LBMM.exe portable dist LBMM.zip logs.txt",
     "lint": "eslint --ext=.jsx,.js,.tsx,.ts src --quiet --fix",
     "postinstall": "patch-package",
+    "bump": "npm version patch -m \"Bump version to %s\"",
     "typesync": "typesync --ignorepackages=luxon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
