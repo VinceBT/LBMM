@@ -7,7 +7,9 @@ import { Service } from "typedi";
 import { I18n } from "../settings/I18n";
 import { Logger, pathToLogs } from "../settings/Logger";
 import { pathToSettingsJson, Settings } from "../settings/Settings";
-import { runCommand } from "../utils/processes";
+import { runCommandSync } from "../utils/processes";
+
+import { MainDisplayManager } from "./MainDisplayManager";
 
 declare module "systray2" {
   export interface MenuItem {
@@ -19,14 +21,29 @@ declare module "systray2" {
 export class TrayManager {
   private systray: SysTray;
 
-  constructor(private i18n: I18n, private settings: Settings, private logger: Logger) {
+  constructor(
+    private i18n: I18n,
+    private settings: Settings,
+    private logger: Logger,
+    private mainDisplayManager: MainDisplayManager,
+  ) {
     this.systray = new SysTray({
       menu: {
         icon: path.join(process.cwd(), "assets", os.platform() === "win32" ? "iconset.ico" : "image.png"),
         isTemplateIcon: os.platform() === "darwin",
         title: "LBMM",
         tooltip: "LBMM - Little Big Mouse Manager",
-        items: [this.openLocation, this.openSettings, this.openLogs, SysTray.separator, this.startWithWindows, SysTray.separator, this.itemExit],
+        items: [
+          this.openDebugger,
+          SysTray.separator,
+          this.openLocation,
+          this.openSettings,
+          this.openLogs,
+          SysTray.separator,
+          this.startWithWindows,
+          SysTray.separator,
+          this.itemExit,
+        ],
       },
       debug: false,
       copyDir: false,
@@ -48,12 +65,20 @@ export class TrayManager {
       });
   }
 
+  private openDebugger: MenuItem = {
+    title: this.i18n.t("tray.debugger.title"),
+    tooltip: this.i18n.t("tray.debugger.title"),
+    click: () => {
+      this.mainDisplayManager.openWindow();
+    },
+  };
+
   private openLocation: MenuItem = {
     title: this.i18n.t("tray.location.title"),
     tooltip: this.i18n.t("tray.location.title"),
     click: () => {
       try {
-        runCommand("explorer", process.cwd());
+        runCommandSync("explorer", [process.cwd()]);
       } catch (e) {}
     },
   };
@@ -63,7 +88,7 @@ export class TrayManager {
     tooltip: this.i18n.t("tray.settings.title"),
     click: () => {
       try {
-        runCommand("start", pathToSettingsJson);
+        runCommandSync("start", [pathToSettingsJson]);
       } catch (e) {}
     },
   };
@@ -73,7 +98,7 @@ export class TrayManager {
     tooltip: this.i18n.t("tray.logs.title"),
     click: () => {
       try {
-        runCommand("start", pathToLogs);
+        runCommandSync("start", [pathToLogs]);
       } catch (e) {}
     },
   };

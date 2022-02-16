@@ -1,7 +1,8 @@
+import { EventEmitter } from "events";
 import fs from "fs";
 import path from "path";
 
-import debounce from "lodash.debounce";
+import { debounce } from "lodash";
 import { Service } from "typedi";
 
 import { StartupManager } from "../managers/StartupManager";
@@ -12,14 +13,16 @@ export const pathToSettingsJson = path.resolve(process.cwd(), "settings.json");
 
 interface SettingsMap {
   daemon: string;
-  initial: boolean;
   interval: number;
   startup: boolean;
   blacklist: string[];
 }
 
+export type SettingsChangeCallback = () => void;
+
 @Service()
 export class Settings {
+  public eventEmitter = new EventEmitter.EventEmitter();
   private json: SettingsMap;
   private watcher: fs.FSWatcher;
 
@@ -37,10 +40,6 @@ export class Settings {
     return this.json.interval;
   }
 
-  get initial() {
-    return this.json.initial;
-  }
-
   get startup() {
     return this.json.startup;
   }
@@ -53,6 +52,12 @@ export class Settings {
 
   get blacklist() {
     return this.json.blacklist;
+  }
+
+  addListener(cb: SettingsChangeCallback) {
+    this.eventEmitter.on("changed", () => {
+      cb();
+    });
   }
 
   private loadJsonFile() {
@@ -70,10 +75,10 @@ export class Settings {
   private watchJsonFile() {
     return fs.watch(
       pathToSettingsJson,
-      debounce((...anything: any) => {
-        console.log(anything);
+      debounce(() => {
         this.logger.log("JSON settings file was updated, applying new configuration");
         this.json = this.loadJsonFile();
+        this.eventEmitter.emit("changed");
       }, 500),
     );
   }

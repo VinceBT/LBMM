@@ -5,6 +5,7 @@ import { Window, windowManager } from "node-window-manager";
 import { Service } from "typedi";
 
 import { Settings } from "../settings/Settings";
+import { ActiveWindow } from "../types/Common";
 
 declare module "node-window-manager" {
   interface Window {
@@ -22,10 +23,7 @@ Window.prototype.getExif = function () {
   return exiftool.read(this.path);
 };
 
-interface ActiveWindow {
-  window: Window;
-  isWatched: boolean;
-}
+export type ActiveWindowListenerCallback = (activeWindow?: ActiveWindow) => void;
 
 @Service()
 export class ActiveWindowListener {
@@ -37,29 +35,24 @@ export class ActiveWindowListener {
     this.timeoutId = setTimeout(() => this.loop());
   }
 
-  clear() {
+  addListener(cb: ActiveWindowListenerCallback) {
+    this.eventEmitter.on("changed", cb);
+  }
+
+  removeAllListeners() {
     this.eventEmitter.removeAllListeners("changed");
-    this.stopLoop();
-  }
-
-  stopLoop() {
-    if (this.timeoutId) clearTimeout(this.timeoutId);
-  }
-
-  addListener(cb: (activeWindow?: ActiveWindow) => void) {
-    this.eventEmitter.on("changed", (activeWindow: ActiveWindow) => {
-      cb(activeWindow);
-    });
   }
 
   private loop() {
     const currentActiveWindow = windowManager.getActiveWindow();
-    const isActiveWatched = this.settings.blacklist.some((window) => currentActiveWindow.path.indexOf(window, currentActiveWindow.path.length - window.length) != -1);
+    const isActiveBlacklisted = this.settings.blacklist.some(
+      (window) => currentActiveWindow.path.indexOf(window, currentActiveWindow.path.length - window.length) != -1,
+    );
 
     if (!this.activeWindow || this.activeWindow.window.processId !== currentActiveWindow.processId) {
       this.activeWindow = {
         window: currentActiveWindow,
-        isWatched: isActiveWatched,
+        isBlacklisted: isActiveBlacklisted,
       };
       this.eventEmitter.emit("changed", this.activeWindow);
     }

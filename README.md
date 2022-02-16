@@ -27,8 +27,7 @@ The first time you will run the program, it will create a shortcut inside `%AppD
 All these settings can be changed inside `settings.json`, they will be applied instantly.
 
 - `daemon`: Where the LittleBigMouse_Daemon.exe file is located on your system
-- `initial`: If LBM is enabled by default on your computer, default is true
-- `interval`: The interval in milliseconds between each time the process will check the name of your current focused window, default is 500ms
+- `interval`: The interval in milliseconds between each time the process will check the name of your current focused window, default is 1000ms
 - `startup`: If this program should launch at Windows startup, default is true
 - `blacklist`: The list of programs that should turn OFF LBM, feel free to add your own
 

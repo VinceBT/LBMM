@@ -239,6 +239,9 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node,intellij+all
 
 portable
+build
 *.zip
 *.exe
 logs.txt
+public/main.js
+public/main.js.LICENSE.txt

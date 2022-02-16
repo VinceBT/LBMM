@@ -1,4 +1,6 @@
 {
+  "tray.debugger.title": "Open debugger",
+  "tray.debugger.tooltip": "Open the live debugger",
   "tray.exit.title": "Exit",
   "tray.exit.tooltip": "Close program",
   "tray.location.title": "Open program location",

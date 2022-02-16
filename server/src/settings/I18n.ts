@@ -9,7 +9,7 @@ export class I18n {
       debug: false,
       resources: {
         en: {
-          translation: require("../../locales/en-US.json"),
+          translation: require("../../../locales/en-US.json"),
         },
       },
     });

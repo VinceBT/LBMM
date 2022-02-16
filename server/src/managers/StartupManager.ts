@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import { Service } from "typedi";
-import ws from "windows-shortcuts";
+import windowsShortcuts from "windows-shortcuts";
 
 import { Logger } from "../settings/Logger";
 
@@ -15,7 +15,7 @@ export class StartupManager {
   constructor(private logger: Logger) {}
 
   createShortcut() {
-    ws.create(
+    windowsShortcuts.create(
       shortcutPath,
       {
         target: pathToRunner,
@@ -40,12 +40,12 @@ export class StartupManager {
   }
 
   updateShortcut() {
-    ws.query(shortcutPath, (_, info) => {
+    windowsShortcuts.query(shortcutPath, (_, info) => {
       if (info) {
         this.logger.log(`Shortcut points to ${info.target}`);
         if (info.target !== pathToRunner || info.workingDir !== workingDirPath) {
           this.logger.log(`Updating shortcut to ${pathToRunner}`);
-          ws.edit(shortcutPath, { target: pathToRunner, workingDir: path.dirname(pathToRunner) });
+          windowsShortcuts.edit(shortcutPath, { target: pathToRunner, workingDir: path.dirname(pathToRunner) });
         }
       }
     });
