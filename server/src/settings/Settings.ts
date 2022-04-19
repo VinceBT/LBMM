@@ -14,6 +14,7 @@ export const pathToSettingsJson = path.resolve(process.cwd(), "settings.json");
 interface SettingsMap {
   daemon: string;
   interval: number;
+  debounce: number;
   startup: boolean;
   blacklist: string[];
 }
@@ -38,6 +39,10 @@ export class Settings {
 
   get interval() {
     return this.json.interval;
+  }
+
+  get debounce() {
+    return this.json.debounce;
   }
 
   get startup() {

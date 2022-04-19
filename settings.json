@@ -1,6 +1,7 @@
 {
   "daemon": "C:\\\"Program Files\"\\LittleBigMouse\\LittleBigMouse_Daemon.exe",
   "interval": 1000,
+  "debounce": 10000,
   "startup": true,
   "blacklist": [
     "Back4Blood.exe",

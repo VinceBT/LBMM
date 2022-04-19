@@ -6,7 +6,8 @@ import { Service } from "typedi";
 import { Configuration } from "../settings/Configuration";
 import { Logger } from "../settings/Logger";
 import { Settings, SettingsChangeCallback } from "../settings/Settings";
-import { isRunning, runCommandSync } from "../utils/processes";
+import { sleep } from "../utils/JavascriptUtils";
+import { isRunning, runCommandSync } from "../utils/ProcessesUtils";
 
 import { ActiveWindowListener, ActiveWindowListenerCallback } from "./ActiveWindowListener";
 import { MainDisplayManager } from "./MainDisplayManager";
@@ -19,6 +20,7 @@ export class LittleBigMouseManager {
   private isLBMActive = true;
   private shouldIgnoreNextCalls = false;
   private callQueue: PQueue;
+  private canceller?: () => boolean;
 
   constructor(
     private logger: Logger,
@@ -65,51 +67,51 @@ export class LittleBigMouseManager {
         `Focused window (blacklisted=${activeWindow.isBlacklisted ? "true" : "false"}): ${activeWindowName}`,
       );
     }
-    this.callQueue.clear();
-    if (activeWindow && !activeWindow.isBlacklisted) {
-      this.callQueue.add(async () => await this.turnOnLBM());
-    } else {
-      this.callQueue.add(async () => await this.turnOffLBM());
+    const hasCancelled = this.canceller?.(); // Cancel any pending promises
+    this.callQueue.clear(); // Reduce queue to 0
+    if (!hasCancelled) {
+      if (activeWindow && !activeWindow.isBlacklisted) {
+        this.callQueue.add(async () => await this.updateLBMStatus(true));
+      } else {
+        this.callQueue.add(async () => await this.updateLBMStatus(false));
+      }
     }
   };
 
-  private async changeLBMStatus(active: boolean) {
-    if (this.isLBMRunning()) {
-      runCommandSync(this.settings.daemon, [active ? "--start" : "--stop"]);
-      if (active) {
-        this.logger.log("LBM switched on");
+  private async updateLBMStatus(nextActive: boolean) {
+    if (this.isLBMActive === nextActive) {
+      if (!this.shouldIgnoreNextCalls) {
+        this.logger.log(`LBM is already ${nextActive ? "on" : "off"}, skipping and next logs will be muted...`);
+        this.shouldIgnoreNextCalls = true;
+      }
+    } else {
+      this.shouldIgnoreNextCalls = false;
+      if (this.isLBMRunning()) {
+        if (nextActive) {
+          try {
+            this.logger.log(`Waiting ${this.settings.debounce} to turn on`);
+            await sleep(this.settings.debounce, (cancel) => (this.canceller = cancel));
+            runCommandSync(this.settings.daemon, ["--start"]);
+            this.isLBMActive = true;
+            this.logger.log(`LBM switched on`);
+          } catch (e) {
+            this.logger.log(`Cancelling switch-on due to debounce`);
+          }
+        } else {
+          try {
+            this.logger.log(`Waiting ${this.settings.debounce} to turn off`);
+            await sleep(this.settings.debounce, (cancel) => (this.canceller = cancel));
+            runCommandSync(this.settings.daemon, ["--stop"]);
+            this.isLBMActive = false;
+            this.logger.log(`LBM switched off`);
+          } catch (e) {
+            this.logger.log(`Cancelling switch-off due to debounce`);
+          }
+        }
       } else {
-        this.logger.log("LBM switched off");
+        this.callQueue.pause();
+        this.checkRunning();
       }
-    } else {
-      this.callQueue.pause();
-      this.checkRunning();
-    }
-  }
-
-  private async turnOnLBM() {
-    if (this.isLBMActive) {
-      if (!this.shouldIgnoreNextCalls) {
-        this.logger.log("LBM is already on, skipping and next logs will be muted...");
-        this.shouldIgnoreNextCalls = true;
-      }
-    } else {
-      this.shouldIgnoreNextCalls = false;
-      this.isLBMActive = true;
-      await this.changeLBMStatus(true);
-    }
-  }
-
-  private async turnOffLBM() {
-    if (!this.isLBMActive) {
-      if (!this.shouldIgnoreNextCalls) {
-        this.logger.log("LBM is already off, skipping and next logs will be muted...");
-        this.shouldIgnoreNextCalls = true;
-      }
-    } else {
-      this.shouldIgnoreNextCalls = false;
-      this.isLBMActive = false;
-      await this.changeLBMStatus(false);
     }
   }
 }

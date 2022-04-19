@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { Container } from "typedi";
 
 import { LittleBigMouseManager } from "./managers/LittleBigMouseManager";
-import { instancesRunning } from "./utils/processes";
+import { instancesRunning } from "./utils/ProcessesUtils";
 
 if (instancesRunning("LBMM.exe") > 1) {
   dialog.show({

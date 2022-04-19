@@ -7,23 +7,21 @@ export const styles = {
   consoleContainer: {
     display: "flex",
     flex: 1,
-    overflow: "hidden",
-    flexFlow: "column",
+    background: "black",
+    overflowY: "auto",
+    flexFlow: "column-reverse",
   },
   console: {
     display: "flex",
-    flex: 1,
-    flexFlow: "column",
-    overflow: "auto",
-    background: "black",
+    flexFlow: "column-reverse",
     color: "white",
     fontFamily: "monospace",
+    marginBottom: "auto",
   },
   item: {
     //
   },
   activeWindow: {
-    display: "none",
     flexFlow: "column",
     background: "red",
     color: "white",

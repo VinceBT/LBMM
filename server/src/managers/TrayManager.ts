@@ -7,7 +7,7 @@ import { Service } from "typedi";
 import { I18n } from "../settings/I18n";
 import { Logger, pathToLogs } from "../settings/Logger";
 import { pathToSettingsJson, Settings } from "../settings/Settings";
-import { runCommandSync } from "../utils/processes";
+import { runCommandSync } from "../utils/ProcessesUtils";
 
 import { MainDisplayManager } from "./MainDisplayManager";
 

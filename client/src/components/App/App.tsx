@@ -5,7 +5,6 @@ import { Container } from "typedi";
 
 import { ActiveWindow } from "../../../../server/src/types/Common";
 import { SocketHandler } from "../../managers/SocketHandler";
-import { bottomScroller } from "../../utils/HTMLUtils";
 import { DebuggerRef } from "../Debugger/constants";
 import { Debugger } from "../Debugger/Debugger";
 
@@ -24,7 +23,6 @@ const App = (props: AppProps) => {
   const [logs, setLogs] = useState<string[]>([]);
   const [activeWindow, setActiveWindow] = useState<ActiveWindow>();
 
-  const $console = useRef<HTMLPreElement>(null);
   const $debugger = useRef<DebuggerRef>(null);
 
   const socketHandler = Container.get(SocketHandler);
@@ -34,8 +32,21 @@ const App = (props: AppProps) => {
     if (string[string.length - 1] !== "\n") {
       string += "\n";
     }
-    setLogs((prevState) => prevState.concat(string));
+    setLogs((prevState) => [string].concat(prevState));
   }, []);
+
+  /*
+  useEffect(() => {
+    let count = 0;
+    const handler = setInterval(() => {
+      setLogs((prevState) => [count % 2 === 0 ? "Tic" : "Tac"].concat(prevState));
+      count++;
+    }, 1000);
+    return () => {
+      clearInterval(handler);
+    };
+  }, []);
+   */
 
   const handleActiveWindowChange = useCallback((data) => {
     setActiveWindow(data);
@@ -68,17 +79,10 @@ const App = (props: AppProps) => {
     };
   }, [handleNewMessages, handleActiveWindowChange, socketHandler]);
 
-  useEffect(() => {
-    const unsubscribe = bottomScroller($console.current);
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
   return (
     <div className={classes.container}>
       <div className={classes.consoleContainer}>
-        <pre ref={$console} className={classes.console}>
+        <pre className={classes.console}>
           {logs.map((log, i) => (
             <span key={log + i} className={classes.item}>
               {log}

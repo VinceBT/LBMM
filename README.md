@@ -28,6 +28,7 @@ All these settings can be changed inside `settings.json`, they will be applied i
 
 - `daemon`: Where the LittleBigMouse_Daemon.exe file is located on your system
 - `interval`: The interval in milliseconds between each time the process will check the name of your current focused window, default is 1000ms
+- `debounce`: The debounced time before turning on/off LBM when Alt+Tab-ing from a blacklisted application, default is 10000ms
 - `startup`: If this program should launch at Windows startup, default is true
 - `blacklist`: The list of programs that should turn OFF LBM, feel free to add your own
 

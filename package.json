@@ -15,6 +15,7 @@
     "postportable": "copyfiles *.vbs settings.json locales/* assets/* public/**/* node_modules/**/*.node node_modules/**/*.exe portable && npm run pack",
     "dev": "concurrently \"npm run client-dev\" \"npm run server-dev\"",
     "build": "npm run executable -- -o LBMM.exe",
+    "build-all": "concurrently \"npm run build\" \"npm run portable\"",
     "clean": "rimraf LBMM.exe portable dist LBMM.zip logs.txt",
     "lint": "eslint --ext=.jsx,.js,.tsx,.ts server,client --quiet --fix",
     "postinstall": "patch-package",
