@@ -1,6 +1,6 @@
 {
   "name": "lbmm",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "server-start": "cross-env NODE_ENV=development ts-node server/src/index.ts",
     "server-compile": "rimraf server/dist && cross-env NODE_ENV=production tsc -p server/tsconfig.json",
